@@ -1,0 +1,34 @@
+.gi-form {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  font-family: sans-serif;
+}
+
+.gi-form .gi-indicator {
+  position: absolute;
+}
+
+.gi-form .gi-user {
+  display: block;
+  position: relative;
+  width: 60px;
+  height: 24px;
+  float: right;
+  padding: 0 10px 0 0;
+  z-index: 2;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 24px;
+  text-align: center;
+  color: #fff;
+}
+
+.gi-form .gi-bar {
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  bottom: 0;
+  z-index: 1;
+}

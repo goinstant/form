@@ -1,0 +1,42 @@
+{
+  "name": "form",
+  "repo": "goinstant/form",
+  "description": "",
+  "version": "1.0.0",
+  "keywords": [],
+
+  "dependencies": {
+    "component/emitter": "*",
+    "component/delegate": "*",
+    "component/value": "*",
+    "lodash/lodash": "*",
+    "stagas/binder": "*",
+    "caolan/async": "*",
+    "goinstant/usercache": "*",
+    "goinstant/colors-common": "*"
+  },
+
+  "development": {
+    "component/jquery": "*"
+  },
+
+  "main": "index.js",
+
+  "scripts": [
+    "index.js",
+    "lib/form.js",
+    "lib/name_index.js",
+    "lib/element_value.js",
+    "lib/element_names.js",
+    "lib/tag_names.js",
+    "lib/view.js"
+  ],
+
+  "templates": [
+    "templates/indicator.html"
+  ],
+
+  "styles": [
+    "component.css"
+  ]
+}

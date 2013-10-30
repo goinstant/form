@@ -1,0 +1,30 @@
+{
+  "name": "goinstant-form",
+  "main": [
+    "dist/form.js",
+    "dist/form.css"
+  ],
+  "version": "1.0.0",
+  "homepage": "https://github.com/goinstant/form",
+  "authors": [
+    "GoInstant",
+    "a salesforce.com company"
+  ],
+
+  "description": "The GoInstant Form widget makes it easy to integrate real-time, multi-user capabilities into a form, allowing two or more people to fill it out together.",
+  "keywords": [
+    "GoInstant",
+    "widget",
+    "form"
+  ],
+
+  "license": "BSD",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
+
