@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GoInstant: Form Example: defaults</title>
+
+    <script src="https://cdn.goinstant.net/v1/platform.min.js"></script>
+    <script src="https://cdn.goinstant.net/widgets/user-colors/latest/user-colors.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="../node_modules/lodash/lodash.js"></script>
+
+    <!-- Config -->
+    <script src="../config/config.js"></script>
+
+    <!-- Widget Example Page -->
+    <link rel="stylesheet" href="../node_modules/widget-examples/css/examples.css" />
+    <script src="../node_modules/widget-examples/js/template.js"></script>
+    <script src="../node_modules/widget-examples/js/examples.js"></script>
+
+    <!-- GoInstant Widget Build -->
+    <link rel="stylesheet" href="../build/build.css" />
+    <script src="../build/build.js"></script>
+  </head>
+  <body>
+
+    <script type="text/javascript">
+
+      // Define the example
+      function widgetTest(room) {
+
+        var Form = require('form');
+        var UserColors = goinstant.widgets.UserColors;
+
+        var key = room.key('default-form-key');
+        var formEl = document.getElementById('form');
+
+        var options = {
+          room: room,
+          key: key,
+          el: formEl
+        };
+
+        var userColors = new UserColors({ room: room });
+        userColors.choose(function(err){
+          if (err) {
+            throw err;
+          }
+        });
+
+        var form = new Form(options);
+
+        form.on('error', function(err) { console.error(err.message); });
+
+        form.initialize(function(err) {
+          if (err) throw err;
+
+          formEl.style.display = "block";
+        });
+
+        key.on('remove', function() {
+          clearForm();
+
+        }, function() {
+
+          var clearButton = document.getElementById('clear');
+          clearButton.onclick = clearButtonClick;
+        });
+
+        function clearButtonClick() {
+          key.remove();
+
+          clearForm();
+
+          return false;
+        }
+
+        function clearForm() {
+          var a = document.getElementById('a').value = "";
+          var b = document.getElementById('b').value = "";
+          var c = document.getElementById('c').selectedIndex = 0;
+        }
+
+        $('#destroy').click(function(e) {
+          e.preventDefault();
+          form.destroy(function(err) {
+            if (err) console.error(err.message);
+          });
+        });
+
+        $('#r').on('click', function() {
+          var formEl = document.getElementById('form');
+          formEl.reset();
+        });
+      }
+
+      // Load the example test page
+      $(document).ready(function() {
+
+        var config = {
+          name: 'Form',
+          desc: 'default options',
+          test: widgetTest
+        };
+
+        var example = new Example(config);
+        example.load();
+      });
+
+    </script>
+
+    <div id="common"></div>
+
+    <div id="expected">
+      <p>
+      The expected behaviour of this page is as follows:
+      </p>
+      <ul>
+        <li>Changes should persist after refreshing the page</li>
+        <li>Clearing the form should persist after refreshing the page</li>
+        <li>Changes should be reflected between users</li>
+        <li>There is an input in the top-middle of the screen. The indicator should
+        appear <strong>below</strong> that input because there is not enough
+        room above.</li>
+        <li>After clicking <strong>destroy</strong> the client should not send or
+        receive form data or show indicators.</li>
+        <li>Clicking the "Reset" button should clear both the form and the state of
+        each element. Refresh the page to verify the state is reset (values should
+        be empty).</li>
+      </ul>
+    </div>
+
+    <div id="content">
+
+    <a href="#" id="clear">Clear</a>
+    <a href="#" id="destroy">Destroy</a>
+
+    <form id="form" action="" style="display:none">
+      <div>
+      <table>
+        <tr>
+          <td>Tag Name</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Input</td>
+          <td>
+            <input type=text id="a" name="a" />
+          </td>
+        </tr>
+        <tr>
+          <td>Textarea</td>
+          <td>
+            <textarea name="b" id="b"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>Select</td>
+          <td>
+            <select name="c" id="c">
+              <option>A</option>
+              <option>B</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Password</td>
+          <td><input type="password" id="d" name="d">
+        </tr>
+        <tr>
+          <td>form.reset()</td>
+          <td><input type="button" id="r" value="Reset" />
+      </table>
+
+      <input type="text" id="topOfPage" name="topOfPage" />
+    </form>
+    </div>
+  </body>
+</html>

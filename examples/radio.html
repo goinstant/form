@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GoInstant: Form Example: radio</title>
+
+    <script src="https://cdn.goinstant.net/v1/platform.min.js"></script>
+    <script src="https://cdn.goinstant.net/widgets/user-colors/latest/user-colors.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="../node_modules/lodash/lodash.js"></script>
+
+    <!-- Config -->
+    <script src="../config/config.js"></script>
+
+    <!-- Widget Example Page -->
+    <link rel="stylesheet" href="../node_modules/widget-examples/css/examples.css" />
+    <script src="../node_modules/widget-examples/js/template.js"></script>
+    <script src="../node_modules/widget-examples/js/examples.js"></script>
+
+    <!-- GoInstant Widget Build -->
+    <link rel="stylesheet" href="../build/build.css" />
+    <script src="../build/build.js"></script>
+  </head>
+  <body>
+
+    <script type="text/javascript">
+
+      // Define the example
+      function widgetTest(room) {
+
+        var Form = require('form');
+        var UserColors = goinstant.widgets.UserColors;
+
+        var key = room.key('radio-form-key');
+        var formEl = document.getElementById('form');
+
+        var userColors = new UserColors({ room: room });
+        userColors.choose(function(err){
+          if (err) {
+            throw err;
+          }
+        });
+
+        var form = new Form({
+          key: key,
+          el: formEl,
+          room: room
+        });
+
+        window.key = key;
+
+        form.initialize(function(err) {
+          if (err) throw err;
+
+          formEl.style.display = "block";
+        });
+
+        key.on('remove', function() {
+          clearForm();
+
+        }, function() {
+
+          var clearButton = document.getElementById('clear');
+          clearButton.onclick = clearButtonClick;
+        });
+
+        function clearButtonClick() {
+          key.remove();
+
+          clearForm();
+
+          return false;
+        }
+
+        function clearForm() {
+          $('input').attr('checked', false);
+        }
+
+        $('#r').on('click', function() {
+          var formEl = document.getElementById('form');
+          formEl.reset();
+        });
+
+      }
+
+      // Load the example test page
+      $(document).ready(function() {
+
+        var config = {
+          name: 'Form',
+          desc: 'array of radio buttons',
+          test: widgetTest
+        };
+
+        var example = new Example(config);
+        example.load();
+      });
+
+    </script>
+
+    <div id="common"></div>
+
+    <div id="expected">
+      <p>
+      The expected behaviour of this page is as follows:
+      </p>
+      <ul>
+        <li>Clicking a radio should mark the appropriate radio for other users</li>
+        <li>Refreshing the page, the appropriate radio button should be marked</li>
+        <li>Clicking the "Reset" button should clear both the form and the state of
+        each element. Refresh the page to verify the state is reset (values should
+        be empty).</li>
+      </ul>
+    </div>
+
+    <div id="content">
+
+    <a href="#" id="clear">Clear</a>
+
+    <form id="form" action="" style="display:none">
+      <table>
+        <tr>
+          <td>A</td>
+          <td>
+            <input type="radio" id="a" name="a" />
+          </td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td>
+            <input type="radio" id="b" name="a" />
+          </td>
+        </tr>
+        <tr>
+          <td>C</td>
+          <td>
+            <input type="radio" id="c" name="a" />
+          </td>
+        </tr>
+        <tr>
+          <td>form.reset()</td>
+          <td><input type="button" id="r" value="Reset" /></td>
+        </tr>
+      </table>
+    </form>
+
+    </div>
+  </body>
+</html>

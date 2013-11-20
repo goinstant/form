@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GoInstant: Form Example: include</title>
+
+    <script src="https://cdn.goinstant.net/v1/platform.min.js"></script>
+    <script src="https://cdn.goinstant.net/widgets/user-colors/latest/user-colors.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="../node_modules/lodash/lodash.js"></script>
+
+    <!-- Config -->
+    <script src="../config/config.js"></script>
+
+    <!-- Widget Example Page -->
+    <link rel="stylesheet" href="../node_modules/widget-examples/css/examples.css" />
+    <script src="../node_modules/widget-examples/js/template.js"></script>
+    <script src="../node_modules/widget-examples/js/examples.js"></script>
+
+    <!-- GoInstant Widget Build -->
+    <link rel="stylesheet" href="../build/build.css" />
+    <script src="../build/build.js"></script>
+  </head>
+  <body>
+
+    <script type="text/javascript">
+
+      // Define the example
+      function widgetTest(room) {
+
+        var Form = require('form');
+        var UserColors = goinstant.widgets.UserColors;
+
+        var key = room.key('include-form-key');
+        var formEl = document.getElementById('form');
+
+         var userColors = new UserColors({ room: room });
+        userColors.choose(function(err){
+          if (err) {
+            throw err;
+          }
+        });
+
+        var form = new Form({
+          key: key,
+          el: formEl,
+          room: room,
+          include: [
+            'shared'
+          ]
+        });
+
+        form.initialize(function(err) {
+          if (err) throw err;
+
+          formEl.style.display = "block";
+        });
+
+        key.on('remove', function() {
+          clearForm();
+
+        }, function() {
+
+          var clearButton = document.getElementById('clear');
+          clearButton.onclick = clearButtonClick;
+        });
+
+        function clearButtonClick() {
+          key.remove();
+
+          clearForm();
+
+          return false;
+        }
+
+        function clearForm() {
+          var a = document.getElementById('a').value = "";
+          var b = document.getElementById('b').value = "";
+        }
+
+        $('#r').on('click', function() {
+          var formEl = document.getElementById('form');
+          formEl.reset();
+        });
+
+      }
+
+      // Load the example test page
+      $(document).ready(function() {
+
+        var config = {
+          name: 'Form',
+          desc: 'include',
+          test: widgetTest
+        };
+
+        var example = new Example(config);
+        example.load();
+      });
+
+    </script>
+
+    <div id="common"></div>
+
+    <div id="expected">
+      <p>
+      The expected behaviour of this page is as follows:
+      </p>
+      <ul>
+        <li>Changes should persist after refreshing the page</li>
+        <li>Clearing the form should persist after refreshing the page</li>
+        <li>Changes should be reflected between users</li>
+        <li>Clicking the "Reset" button should clear both the form and the state of
+        each element. Refresh the page to verify the state is reset (values should
+        be empty).</li>
+        <li>The "Shared" textbox should propagate to other browsers while the "Hidden" textbox should not.</li>
+      </ul>
+    </div>
+
+    <div id="content">
+
+    <a href="#" id="clear">Clear</a>
+
+    <form id="form" action="" style="display:none">
+      <table>
+        <tr>
+          <td>Tag Name</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Shared</td>
+          <td>
+            <input type=text id="a" name="shared" />
+          </td>
+        </tr>
+        <tr>
+          <td>Hidden</td>
+          <td>
+            <input type=text name="hidden" id="b" />
+          </td>
+        </tr>
+        <tr>
+          <td>form.reset()</td>
+          <td><input type="button" id="r" value="Reset" /></td>
+        </tr>
+      </table>
+    </form>
+
+    </div>
+  </body>
+</html>
