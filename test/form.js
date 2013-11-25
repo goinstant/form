@@ -1,5 +1,5 @@
 /*jshint browser:true, node:false*/
-/*global require*/
+/*global require, describe, it, beforeEach, afterEach*/
 'use strict';
 
 describe('Form', function() {
@@ -24,8 +24,8 @@ describe('Form', function() {
 
   function MockKey() {
     this.key = sinon.stub();
-    this.on = sinon.stub().yields();
-    this.off = sinon.stub().callsArg(2);
+    this.on = sinon.stub();
+    this.off = sinon.stub();
     this.set = sinon.stub().yields();
     this.get = sinon.stub().yields(null, {}, {});
     this.remove = sinon.stub();
@@ -36,9 +36,6 @@ describe('Form', function() {
     this.user = sinon.stub().yields(null, {
       id: this.mockUserId
     });
-
-    this.users = sinon.stub().yields(null, {});
-
     this.key = function() {
       return new MockKey();
     };
@@ -141,6 +138,8 @@ describe('Form', function() {
         key: key,
         room: new MockRoom()
       });
+
+      sinon.stub(form._usercache, 'initialize').yields();
     });
 
     describe('initialize', function() {
@@ -276,6 +275,9 @@ describe('Form', function() {
     });
 
     describe('destroy', function() {
+      beforeEach(function() {
+        sinon.stub(form._usercache, 'destroy').yields();
+      });
       it('unbinds from the namespaced key', function(done) {
         form.initialize(function(err) {
           if (err) {
@@ -287,7 +289,7 @@ describe('Form', function() {
               return done(err);
             }
 
-            var listener = namespacedKey.on.args[1][1].listener;
+            var listener = namespacedKey.on.args[0][1].listener;
 
             sinon.assert.calledWith(
               namespacedKey.off,
@@ -395,6 +397,9 @@ describe('Form', function() {
           ]
         });
 
+        sinon.stub(form._usercache, 'initialize').yields();
+        sinon.stub(form._usercache, 'destroy').yields();
+
         inputKey = new MockKey();
 
         namespacedKey.key.withArgs('INPUT/text/myname/0').returns(inputKey);
@@ -449,6 +454,9 @@ describe('Form', function() {
           key: key,
           room: new MockRoom()
         });
+
+        sinon.stub(form._usercache, 'initialize').yields();
+        sinon.stub(form._usercache, 'destroy').yields();
 
         input = document.createElement('input');
         input.name = "myname";
@@ -556,6 +564,9 @@ describe('Form', function() {
         room: new MockRoom()
       });
 
+      sinon.stub(form._usercache, 'initialize').yields();
+      sinon.stub(form._usercache, 'destroy').yields();
+
       firstInput = document.createElement('input');
       firstInput.type = 'radio';
       firstInput.name = "myname";
@@ -631,6 +642,9 @@ describe('Form', function() {
         room: new MockRoom()
       });
 
+      sinon.stub(form._usercache, 'initialize').yields();
+      sinon.stub(form._usercache, 'destroy').yields();
+
       form.initialize(done);
     });
 
@@ -680,6 +694,9 @@ describe('Form', function() {
         key: key,
         room: new MockRoom()
       });
+
+      sinon.stub(form._usercache, 'initialize').yields();
+      sinon.stub(form._usercache, 'destroy').yields();
 
       form.initialize(function(err) {
         done(err);
