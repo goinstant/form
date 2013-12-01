@@ -22,6 +22,9 @@ describe('Form', function() {
 
   var KEY_NAMESPACE_NAME = 'goinstant-widgets-form';
 
+  var DATA_GOINSTANT_ID = 'data-goinstant-id';
+  var DATA_GOINSTANT_CLICK = 'gi-click';
+
   function MockKey() {
     this.key = sinon.stub();
     this.on = sinon.stub();
@@ -636,6 +639,8 @@ describe('Form', function() {
       key.key.withArgs(Form.NAMESPACE).returns(namespacedKey);
 
       formEl = document.createElement('FORM');
+      document.body.appendChild(formEl);
+
       form =  new Form({
         el: formEl,
         key: key,
@@ -644,11 +649,17 @@ describe('Form', function() {
 
       sinon.stub(form._usercache, 'initialize').yields();
       sinon.stub(form._usercache, 'destroy').yields();
+      sinon.stub(form._usercache, 'getUser');
 
       form.initialize(done);
     });
 
-    it("sets element's value", function() {
+    afterEach(function(done) {
+      formEl.parentNode.removeChild(formEl);
+      form.destroy(done);
+    });
+
+    it('sets element\'s value', function() {
       var inputName = 'something';
       var firstInput = document.createElement('input');
       var secondInput = document.createElement('input');
@@ -672,6 +683,32 @@ describe('Form', function() {
 
       assert.equal(firstInput.value, '');
       assert.equal(secondInput.value, mockValue);
+    });
+
+    it('won\'t display a checkbox indicator with the click widget', function() {
+      window.goinstant.widgets = {};
+      window.goinstant.widgets.ClickIndicator = sinon.stub();
+
+      var ancestor = document.documentElement;
+      ancestor.setAttribute(DATA_GOINSTANT_ID, DATA_GOINSTANT_CLICK);
+
+      var radioInput = document.createElement('input');
+      radioInput.type = 'radio';
+      radioInput.name = 'something';
+
+      formEl.appendChild(radioInput);
+
+      var mockValue = 0;
+
+      var mockContext = {
+        key: 'nested/INPUT/radio/something/0',
+        userId: 3
+      };
+
+      sinon.stub(form._view, 'addIndicator');
+      form._receive(mockValue, mockContext);
+
+      sinon.assert.notCalled(form._view.addIndicator);
     });
   });
 
