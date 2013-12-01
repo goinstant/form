@@ -65,6 +65,12 @@
           if (err) throw err;
 
           formEl.style.display = "block";
+
+          // Set the container to the dynamic body size
+          $('.gi-override.gi-click-container').css({
+            "width": $(document).width(),
+            "height": $(document).height()
+          });
         });
 
         key.on('remove', function() {
@@ -108,7 +114,7 @@
 
         var config = {
           name: 'Form',
-          desc: 'default options',
+          desc: 'collison options',
           test: widgetTest
         };
 
@@ -125,17 +131,12 @@
       The expected behaviour of this page is as follows:
       </p>
       <ul>
-        <li>Changes should persist after refreshing the page</li>
-        <li>Clearing the form should persist after refreshing the page</li>
-        <li>Changes should be reflected between users</li>
-        <li>There is an input in the top-middle of the screen. The indicator should
-        appear <strong>below</strong> that input because there is not enough
-        room above.</li>
-        <li>After clicking <strong>destroy</strong> the client should not send or
-        receive form data or show indicators.</li>
-        <li>Clicking the "Reset" button should clear both the form and the state of
-        each element. Refresh the page to verify the state is reset (values should
-        be empty).</li>
+        <li>Where a click indicator exists on this page and is bound to an
+        ancestor of the form, the radio buttons and checkboxes should not
+        display a form indicator.</li>
+        <li>A form indicator should appear for all other form elements.</li>
+        <li>All form elements should still sync their values.</li>
+        <li>All form element's values should persist after a page refresh.</li>
       </ul>
     </div>
 
