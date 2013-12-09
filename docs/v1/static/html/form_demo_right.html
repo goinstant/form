@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="../../../static/css/multi-browser-demo.css">
+  <link rel="stylesheet" href="https://cdn.goinstant.net/widgets/form/latest/form.css" />
+  <style type="text/css">
+    label {
+      float: left;
+      clear: both;
+      width: 100px;
+      margin: .75em 1em;
+      text-align: right;
+      font-family: sans-serif;
+      font-size: 13px;
+      color: #666;
+    }
+    input[type="text"],
+    input[type="range"],
+    select,
+    textarea {
+      float: left;
+      margin: 1em;
+      width: 140px;
+    }
+    input[type="radio"],
+    input[type="checkbox"] {
+      float: left;
+      margin: 1em;
+      margin-left: 32px;
+      width: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="browser">
+    <div class="browser-bar">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="browser-content" style="height: 300px;">
+      <form id="form-id">
+        <label for="text-input">Try typing in here...</label>
+        <input name="text-input" id="text-input" type="text" />
+        <label for="textarea-input">And in here...</label>
+        <textarea name="textarea-input" id="textarea-input" rows="3"></textarea>
+        <label for="select-input">Choose an option...</label>
+        <select name="select-input" id="select-input">
+          <option value="a">A</option>
+          <option value="b">B</option>
+          <option value="c">C</option>
+        </select>
+        <label for="range-input">Slide this...</label>
+        <input name="range-input" type="range" />
+        <label for="radio-input">Click one...</label>
+        <input name="radio-input" type="radio" value="1"/>
+        <input name="radio-input" type="radio" value="2"/>
+        <label for="checkbox-input">Click one...</label>
+        <input name="checkbox-input" type="checkbox" value="3"/>
+        <input name="checkbox-input" type="checkbox" value="4"/>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.goinstant.net/v1/platform.min.js"></script>
+  <script src="https://cdn.goinstant.net/widgets/form/latest/form.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="../../../static/js/randomize_room.js"></script>
+  <script src="../js/form_demo.js"></script>
+  <script type="text/javascript">
+    window.options = { guestId: '2' };
+  </script>
+</body>
+</html>
