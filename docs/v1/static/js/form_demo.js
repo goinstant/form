@@ -32,7 +32,6 @@ function connect(options) {
         if (err) {
           return console.error("error setting avatarColor", err);
         }
-        // The user now appears red in the user-list, etc.
       });
 
       var formKey = currentRoom.key('example-form-key');
