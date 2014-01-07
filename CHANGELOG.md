@@ -1,5 +1,9 @@
 # Form Changelog
 
+### v1.1.1
+
+- Remove deprecated code from docs demo
+
 ### v1.1.0
 
 - Improved initial styling
