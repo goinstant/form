@@ -1,5 +1,6 @@
-/*global $, window, goinstant, console, jQuery */
+/*global $, window, goinstant, document, getOrSetRoomCookie, jQuery */
 'use strict';
+var console=console||{"error":function(){}};
 
 function connect(options) {
   var connectUrl = 'https://goinstant.net/goinstant-services/docs';
@@ -7,8 +8,7 @@ function connect(options) {
 
   connection.connect(function(err, connection) {
     if (err) {
-      console.error('could not connect:', err);
-      return;
+      return console.error('could not connect:', err);
     }
 
     var roomName = getOrSetRoomCookie("form");
@@ -18,8 +18,7 @@ function connect(options) {
 
     currentRoom.join(function(err) {
       if (err) {
-        console.error('Error joining room:', err);
-        return;
+        return console.error('Error joining room:', err);
       }
 
       var color = options.guestId == "1" ? "#f00" : "#0f0";
@@ -48,7 +47,6 @@ function connect(options) {
         if (err) {
           return console.error('Could not initialize widget:', err);
         }
-
         // Your form should now be initialized!
       });
     });
