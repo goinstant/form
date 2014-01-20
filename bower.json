@@ -4,7 +4,7 @@
     "dist/form.js",
     "dist/form.css"
   ],
-  "version": "1.1.1",
+  "version": "1.1.2",
   "homepage": "https://github.com/goinstant/form",
   "authors": [
     "GoInstant",

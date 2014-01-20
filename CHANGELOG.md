@@ -1,5 +1,9 @@
 # Form Changelog
 
+### v1.1.2
+
+- Fix doc's form demo styles
+
 ### v1.1.1
 
 - Remove deprecated code from docs demo
