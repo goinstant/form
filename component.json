@@ -12,6 +12,7 @@
     "lodash/lodash": "2.3.0",
     "stagas/binder": "0.0.1",
     "caolan/async": "f01b3992fbe7aa2f4881152143608ad666aea1cc",
+    "discore/closest": "0.1.2",
     "goinstant/usercache": "v1.0.0",
     "goinstant/colors-common": "v1.0.0"
   },

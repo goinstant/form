@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GoInstant: Form Example: collision</title>
+
+    <script src="https://cdn.goinstant.net/v1/platform.min.js"></script>
+    <script src="https://cdn.goinstant.net/widgets/user-colors/latest/user-colors.min.js"></script>
+    <script src="https://cdn.goinstant.net/widgets/click-indicator/latest/click-indicator.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.goinstant.net/widgets/click-indicator/latest/click-indicator.css" />
+
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="../node_modules/lodash/lodash.js"></script>
+
+    <!-- Config -->
+    <script src="../config/config.js"></script>
+
+    <!-- Widget Example Page -->
+    <link rel="stylesheet" href="../node_modules/widget-examples/css/examples.css" />
+    <script src="../node_modules/widget-examples/js/template.js"></script>
+    <script src="../node_modules/widget-examples/js/examples.js"></script>
+
+    <!-- GoInstant Widget Build -->
+    <link rel="stylesheet" href="../build/build.css" />
+    <script src="../build/build.js"></script>
+  </head>
+  <body>
+
+    <script type="text/javascript">
+
+      // Define the example
+      function widgetTest(room) {
+
+        var Form = require('form');
+        var UserColors = goinstant.widgets.UserColors;
+        var ClickIndicator = goinstant.widgets.ClickIndicator;
+
+        var key = room.key('collision-form-key');
+        var formEl = document.getElementById('form');
+
+        var options = {
+          room: room,
+          key: key,
+          el: formEl
+        };
+
+        var userColors = new UserColors({ room: room });
+        userColors.choose(function(err){
+          if (err) {
+            throw err;
+          }
+        });
+
+        var clickIndicator = new ClickIndicator({ room: room });
+        clickIndicator.initialize(function(err) {
+          if (err) {
+            throw err;
+          }
+        });
+
+        var form = new Form(options);
+
+        form.on('error', function(err) { console.error(err.message); });
+
+        form.initialize(function(err) {
+          if (err) throw err;
+
+          formEl.style.display = "block";
+
+          // Set the container to the dynamic body size
+          $('.gi-override.gi-click-container').css({
+            "width": $(document).width(),
+            "height": $(document).height()
+          });
+        });
+
+        key.on('remove', function() {
+          clearForm();
+
+        }, function() {
+
+          var clearButton = document.getElementById('clear');
+          clearButton.onclick = clearButtonClick;
+        });
+
+        function clearButtonClick() {
+          key.remove();
+
+          clearForm();
+
+          return false;
+        }
+
+        function clearForm() {
+          var a = document.getElementById('a').value = "";
+          var b = document.getElementById('b').value = "";
+          var c = document.getElementById('c').selectedIndex = 0;
+        }
+
+        $('#destroy').click(function(e) {
+          e.preventDefault();
+          form.destroy(function(err) {
+            if (err) console.error(err.message);
+          });
+        });
+
+        $('#r').on('click', function() {
+          var formEl = document.getElementById('form');
+          formEl.reset();
+        });
+      }
+
+      // Load the example test page
+      $(document).ready(function() {
+
+        var config = {
+          name: 'Form',
+          desc: 'collison options',
+          test: widgetTest
+        };
+
+        var example = new Example(config);
+        example.load();
+      });
+
+    </script>
+
+    <div id="common"></div>
+
+    <div id="expected">
+      <p>
+      The expected behaviour of this page is as follows:
+      </p>
+      <ul>
+        <li>Where a click indicator exists on this page and is bound to an
+        ancestor of the form, the radio buttons and checkboxes should not
+        display a form indicator.</li>
+        <li>A form indicator should appear for all other form elements.</li>
+        <li>All form elements should still sync their values.</li>
+        <li>All form element's values should persist after a page refresh.</li>
+      </ul>
+    </div>
+
+    <div id="content">
+
+    <a href="#" id="clear">Clear</a>
+    <a href="#" id="destroy">Destroy</a>
+
+    <form id="form" action="" style="display:none">
+      <div>
+      <table>
+        <tr>
+          <td>Tag Name</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Input</td>
+          <td>
+            <input type=text id="a" name="a" />
+          </td>
+        </tr>
+        <tr>
+          <td>Textarea</td>
+          <td>
+            <textarea name="b" id="b"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>Select</td>
+          <td>
+            <select name="c" id="c">
+              <option>A</option>
+              <option>B</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Password</td>
+          <td><input type="password" id="d" name="d">
+        </tr>
+        <tr>
+          <td>Radio</td>
+          <td>
+            <input type="radio" id="r1" name="radio" />
+            <input type="radio" id="r2" name="radio" />
+            <input type="radio" id="r3" name="radio" />
+          </td>
+        </tr>
+        <tr>
+          <td>Checkbox</td>
+          <td>
+            <input type="checkbox" id="c1" name="cb" />
+            <input type="checkbox" id="c2" name="cb" />
+            <input type="checkbox" id="c3" name="cb" />
+          </td>
+        </tr>        <tr>
+          <td>form.reset()</td>
+          <td><input type="button" id="r" value="Reset" />
+      </table>
+
+      <input type="text" id="topOfPage" name="topOfPage" />
+    </form>
+    </div>
+  </body>
+</html>
